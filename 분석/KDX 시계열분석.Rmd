@@ -1,0 +1,213 @@
+---
+title: "Time_Series_Analysis"
+author: "UDT"
+date: '2020 10 23 '
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# 시계열 예측
+
+
+* 필요할 라이브러리 불러오기
+
+```{r}
+library(dplyr)
+library(lubridate)
+library(ggplot2)
+library(prophet)
+```
+
+
+
+## 1. 엠코데이터 : 일자별 구매수 예측
+
+
+
+### 데이터
+
+
+* 데이터 불러오기
+
+```{r}
+mco5060 = read.csv('C:/Users/82105/Desktop/kdx/mco5060.csv', col.names=c('구매날짜','고객나이','구매금액','구매수'), header=FALSE)
+mco5060 <- mco5060 %>% select('구매날짜','구매수')
+
+head(mco5060)
+```
+
+
+* 데이터 전처리
+
+```{r}
+# 1) 데이터 유형을 date와 float로 변환
+
+mco5060['구매수'] <- as.double(unlist(mco5060['구매수']))
+mco5060['구매날짜'] <- as.Date(unlist(mco5060['구매날짜'], '%Y-%m-%d'))
+
+
+# 2) 나중에 참 값 비교를 위해 일부 데이터 추출
+
+mco5060_2019 <- mco5060[1:365,]
+
+
+# 3) dataframe 형태 및, columns ds와 y로 설정
+
+mco <- mco5060_2019 %>% rename(ds=구매날짜, y=구매수)
+
+head(mco)
+```
+
+
+
+### prophet 모듈을 이용한 forecast 예측
+
+
+* prophet 모듈 이용
+
+```{r}
+F1 <- prophet(mco, daily.seasonality=TRUE)
+
+# 미래 dataframe 생성
+forecast <- make_future_dataframe(F1, periods=182)
+
+# 예측
+fc <- predict(F1, forecast)
+```
+
+```{r}
+# 시각화
+plot(F1, fc, xlab='Years', ylab='Count')
+
+prophet_plot_components(F1, fc)
+
+dyplot.prophet(F1, fc)
+```
+
+
+* 실제 참값과 예측값 차이 (2020/1/1 ~ 2020/6/30)
+
+```{r}
+date <- mco5060['구매날짜'][c(366:547),]
+diff <- mco5060['구매수'][c(366:547),] - fc['yhat'][c(366:547),]
+df <- data.frame(date, diff)
+
+head(df)
+```
+
+
+* 실제 참값과 예측값 차이 그래프
+
+```{r}
+ggplot(data=df,
+       aes(x=date, y=diff)) +
+  geom_line(color = "#00AFBB", size = 1.3) +
+  geom_hline(yintercept=0, color = "red", size = 2) +
+  labs(title = '실제 참값 - 예측값')
+
+```
+
+
+* 실제 참값 > 예측값 인 경우
+
+```{r}
+table(diff > 0)
+```
+
+
+
+
+## 2. 신한카드 : 일자별 구매수 예측
+
+
+
+### 데이터
+
+
+* 데이터 불러오기
+
+```{r}
+shinhan5060 = read.csv('C:/Users/82105/Desktop/kdx/shinhan5060.csv', col.names=c('구매날짜','고객나이','소비건수'), header=FALSE)
+shinhan5060 <- shinhan5060 %>% select('구매날짜','소비건수')
+
+head(shinhan5060)
+```
+
+
+* 데이터 전처리
+
+```{r}
+# 1) 데이터 유형을 date와 float로 변환
+shinhan5060['소비건수'] <- as.double(unlist(shinhan5060['소비건수']))
+shinhan5060['구매날짜'] <- as.Date(unlist(shinhan5060['구매날짜'], '%Y-%m-%d'))
+
+# 2) 나중에 참 값 비교를 위해 일부 데이터 추출
+shinhan5060_2019 <- shinhan5060[1:365,]
+
+# 3) dataframe 형태 및, columns ds와 y로 설정
+shinhan <- shinhan5060_2019 %>% rename(ds=구매날짜, y=소비건수)
+
+head(shinhan)
+```
+
+
+
+### prophet 모듈을 이용한 forecast 예측
+
+
+```{r}
+F1 <- prophet(shinhan, daily.seasonality=TRUE)
+# 미래 dataframe 생성
+forecast <- make_future_dataframe(F1, periods=182)
+# 예측
+fc <- predict(F1, forecast)
+```
+
+```{r}
+# 시각화
+plot(F1, fc, xlab='Years', ylab='Count')
+prophet_plot_components(F1, fc)
+dyplot.prophet(F1, fc)
+````
+
+
+* 실제 참값과 예측값 차이 (2020/1/1 ~ 2020/6/30)
+
+```{r}
+date <- shinhan5060['구매날짜'][c(366:547),]
+diff <- shinhan5060['소비건수'][c(366:547),] - fc['yhat'][c(366:547),]
+df <- data.frame(date, diff)
+
+head(df)
+```
+
+
+* 실제 참값과 예측값 차이 그래프
+
+```{r}
+ggplot(data=df,
+       aes(x=date, y=diff)) +
+  geom_line(color = "#00AFBB", size = 1.3) +
+  geom_hline(yintercept=0, color = "red", size = 2) +
+               labs(title = '실제 참값 - 예측값')
+```
+
+
+* 실제 참값 > 예측값 인 경우
+
+```{r}
+table(diff > 0)
+```
+
+* 2020-05-01(재난지원금) 전, 실제 참값 > 예측값 인 경우
+
+```{r}
+table(diff[1:122] > 0)
+```
+
+
