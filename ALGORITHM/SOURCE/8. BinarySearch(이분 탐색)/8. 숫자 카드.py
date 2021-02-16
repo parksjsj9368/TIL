@@ -1,25 +1,21 @@
+from bisect import bisect_left, bisect_right
+
 n = int(input())
-data1 = list(map(int, input().split()))
-data1.sort()
+check = list(map(int, input().split()))
+check.sort()
 
 m = int(input())
-data2 = list(map(int, input().split()))
+array = list(map(int, input().split()))
 
-def binary_search(array, target, start, end):
-    while start <= end:
-        mid = (start + end) // 2
+def count_by_range(array, left_value, right_value) :
+    right_index = bisect_right(array, right_value)
+    left_index = bisect_left(array, left_value)
+    return right_index - left_index
 
-        if array[mid] == target:
-            return mid
-        elif array[mid] > target:
-            end = mid - 1
-        else:
-            start = mid + 1
-    return None
+for i in array :
+    answer = count_by_range(check, i, i)
 
-for i in data2:
-    result = binary_search(data1, i, 0, n-1)
-    if result == None :
-        print(0, end = ' ')
-    else:
-        print(1, end = ' ')
+    if answer != 0 :
+        answer = 1
+
+    print(answer, end=' ')

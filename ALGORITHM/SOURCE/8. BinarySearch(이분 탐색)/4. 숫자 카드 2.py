@@ -3,9 +3,9 @@ from bisect import bisect_left, bisect_right
 n = int(input())
 check = list(map(int, input().split()))
 check.sort()
-
 m = int(input())
 array = list(map(int, input().split()))
+
 
 # 값이 [left_value, right_value]인 데이터의 개수를 반환하는 함수
 def count_by_range(array, left_value, right_value):
@@ -15,7 +15,4 @@ def count_by_range(array, left_value, right_value):
 
 for i in array:
     answer = count_by_range(check, i, i)
-    if answer != 0:
-        print(1)
-    else:
-        print(0)
+    print(answer, end=' ')
