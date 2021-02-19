@@ -1,6 +1,5 @@
 result = []
 
-
 # 함수
 def dfs(graph, v, visited):
     visited[v] = True

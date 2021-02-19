@@ -43,8 +43,8 @@ def dijkstra(start) :
                 distance[i[0]] = cost
                 heapq.heappush(q, (cost, i[0]))
 
-
 dijkstra(start)
+
 
 # 도달할 수 있는 노드의 개수
 count = 0

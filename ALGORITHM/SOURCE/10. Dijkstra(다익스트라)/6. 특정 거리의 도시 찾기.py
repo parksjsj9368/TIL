@@ -1,27 +1,25 @@
-# 우선순위 큐
-
 import heapq
 import sys
 input = sys.stdin.readline
 # 무한을 의미하는 값으로 10억을 설정
 INF = int(1e9)
 
-# 노드의 개수, 간선의 개수, 거리정보, 시작 노드를 입력받기
-n, m, k, start = map(int, input().split())
+n, m, k, x = map(int, input().split()) # n:도시개수, m:도로개수, k:거리정보, x:출발도시번호
+
+
 # 각 노드에 연결되어 있는 노드에 대한 정보를 담는 리스트 만들기
 graph = [[] for _ in range(n + 1)]
-# 최단 거리 테이블을 모두 무한으로 초기화
-distance = [INF] * (n + 1)
 
-# 모든 간선 정보를 입력받기
-for _ in range(m):
-    x, y = map(int, input().split())
-    # x번 노드에서 y번 노드로 가는 비용이 1이라는 의미
-    graph[x].append([y, 1])
+for i in range(m) :
+    a, b = map(int, input().split())  # a에서 b 단방향
+    graph[a].append([b,1])
 
 
 def dijkstra(start) :
+    # 최단 거리 테이블을 모두 무한으로 초기화
+    distance = [INF] * (n + 1)
     q = []
+
     # 시작 노드로 가기 위한 최단 거리는 0으로 설정하여 큐에 삽입
     heapq.heappush(q, (0, start))
     distance[start] = 0
@@ -42,14 +40,14 @@ def dijkstra(start) :
             if cost < distance[i[0]]:
                 distance[i[0]] = cost
                 heapq.heappush(q, (cost, i[0]))
+    return distance
 
 
-dijkstra(start)
+distance = dijkstra(x)
 
 if k in distance :
-    for d in range(len(distance)) :
-        # 도달할 수 있는 노드의 경우
-        if distance[d] == k :
-            print(d)
+    for i in range(1, len(distance)) :
+        if distance[i] == k :
+            print(i)
 else :
     print(-1)
