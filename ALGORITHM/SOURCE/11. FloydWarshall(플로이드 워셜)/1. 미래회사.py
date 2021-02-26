@@ -4,6 +4,8 @@ INF = int(1e9)
 # 노드 : 회사, 간선 : 도로
 # 노드의 개수 및 간선의 개수 입력받기
 n, m = map(int, input().split())
+
+
 # 2차원 리스트 만들고 무한으로 초기화
 graph = [[INF] * (n + 1) for _ in range(n + 1)]
 
@@ -19,6 +21,8 @@ for _ in range(m) :
     a, b = map(int, input().split())
     graph[a][b] = 1
     graph[b][a] = 1
+
+
 
 # 거쳐 갈 노드 x와 최종 목적지 노드 k를 입력받기
 x, k = map(int, input().split())
