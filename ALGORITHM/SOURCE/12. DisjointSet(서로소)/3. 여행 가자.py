@@ -10,7 +10,6 @@ def find_parent(x):
     parent[x] = find_parent(parent[x])
     return parent[x]
 
-
 # 두 원소가 속한 집합을 합치기
 def union_parent(a, b):
     a = find_parent(a)
