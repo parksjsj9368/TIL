@@ -1,17 +1,18 @@
 from collections import deque
 
-n, m = map(int, input().split()) # n:학생수(1~n), m:비교한회수
+n, m = map(int, input().split()) # n:가수수(1~n), m:보조pd수
 # 모든 노드에 대한 진입차수는 0으로 초기화
-indegree = [0] * (n + 1)
+indegree = [0 for _ in range(n + 1)]
 # 각 노드에 연결된 간선 정보를 담기 위한 연결 리스트 초기화
 graph = [[] for i in range(n + 1)]
 
 # 방향 그래프의 모든 간선 정보를 입력 받기
 for _ in range(m):
-    a, b = map(int, input().split())
-    graph[a].append(b) # a가 b앞에 서야한다
-    # 진입 차수를 1 증가
-    indegree[b] += 1
+    data = list(map(int, input().split()))[1:]
+    for i in range(len(data)-1) :
+        graph[data[i]].append(data[i+1]) # i가 i+1앞에 서야한다
+        # 진입 차수를 1 증가
+        indegree[data[i+1]] += 1
 
 
 # 위상 정렬 함수
@@ -37,7 +38,10 @@ def topology_sort():
                 q.append(i)
 
     # 위상 정렬을 수행한 결과 출력
-    for i in result:
-        print(i, end=' ')
+    if len(result) == n :
+        for i in result:
+            print(i)
+    else :
+        print(0)
 
 topology_sort()
