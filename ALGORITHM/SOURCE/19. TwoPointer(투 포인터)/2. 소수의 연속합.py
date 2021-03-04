@@ -1,8 +1,6 @@
 import math
 
 n = int(input())
-
-
 array = [True for i in range(n + 1)] # 처음엔 모든 수가 소수(True)인 것으로 초기화
 
 # 에라토스테네스의 체 알고리즘
