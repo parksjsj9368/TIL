@@ -1,5 +1,3 @@
-# 연결 요소 찾기 문제
-
 # DFS로 특정 노드를 방문하고 연결된 모든 노드들도 방문
 def dfs(x, y):
     # 주어진 범위를 벗어나는 경우 즉시 종료
@@ -16,7 +14,7 @@ def dfs(x, y):
         dfs(x + 1, y)
         dfs(x, y + 1)
         return True
-    return Fasle
+    return False
 
 
 # N, M을 공백을 기준으로 구분하여 입력 받기

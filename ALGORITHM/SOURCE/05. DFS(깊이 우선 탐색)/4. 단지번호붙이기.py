@@ -1,8 +1,7 @@
-cnt = 0
-
 def dfs(x, y):
     if x <= -1 or x >= n or y <= -1 or y >= n:
         return False
+
     if graph[x][y] == 1:
         global cnt
         cnt += 1
@@ -15,7 +14,7 @@ def dfs(x, y):
     return False
 
 
-n = int(input())
+n = int(input()) # n:지도크기
 graph = []
 for i in range(n):
     graph.append(list(map(int, input())))

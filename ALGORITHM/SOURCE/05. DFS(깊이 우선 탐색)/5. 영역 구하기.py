@@ -1,50 +1,43 @@
 import sys
 sys.setrecursionlimit(10**7)
+input = sys.stdin.readline
 
-m, n, k = map(int, input().split())
+def dfs(x, y):
+    if x < 0 or x >= m or y < 0 or y >= n:
+        return False
 
-arr = [[0] * (n + 1) for _ in range(m + 1)]
-dx = [1,-1,0,0]
-dy = [0,0,1,-1]
-
-
-def dfs(arr, i, j) :
-    cnt = 1
-    for k in range(4) :
-        i_ = i + dx[k]
-        j_ = j + dy[k]
-        if (0 <= i_ < m) and (0 <= j_ < n) :
-            if arr[i_][j_] == 0 :
-                arr[i_][j_] = -1
-                cnt += dfs(arr, i_, j_)
-    return cnt
+    if graph[x][y] == 0:
+        global cnt
+        cnt += 1
+        graph[x][y] = 1
+        dfs(x - 1, y)
+        dfs(x, y - 1)
+        dfs(x + 1, y)
+        dfs(x, y + 1)
+        return True
+    return False
 
 
-# 왼쪽 위가 기준이 아니라 왼쪽 아래에서 0,0으로 시작
-for k in range(k) :
-    lx, ly, rx, ry = map(int, input().split())
+m, n, k = map(int, input().split()) # m행 n열
+graph = [[0] * (n) for _ in range(m)]
 
-    while ly < ry :
-        ux = lx
-        while ux < rx :
-            arr[m - 1 - ly][ux] = 1
-            ux += 1
-        ly += 1
+for k in range(k):
+    ly, lx, ry, rx = map(int, input().split())
 
+    for i in range(lx, rx):
+        for j in range(ly, ry):
+            graph[i][j] = 1
 
-square = 0
+result = 0
 answer = []
+for i in range(m):
+    for j in range(n):
+        cnt = 0
+        if dfs(i, j):
+            result += 1
+            answer.append(cnt)
 
-# 깊이 우선 탐색
-for i in range(m) :
-    for j in range(n) :
-        if arr[i][j] == 0 :
-            arr[i][j] = -1
-            answer.append(dfs(arr, i, j))
-            square += 1
-
-
-print(square)
+print(result)
 answer.sort()
-for i in range(len(answer)):
-    print(answer[i], end=' ')
+for i in answer:
+    print(i, end=' ')
