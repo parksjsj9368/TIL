@@ -1,18 +1,24 @@
 s = "{{4,2,3},{3},{2,3,4,1},{2,3}}"
+
 s = s[2:-2].split('},{')
 s = sorted(s, key = lambda x : len(x))
-# print(s)
+print(s)
 
 answer = []
 for i in s:
     ss = i.split(',')
     for j in ss:
-        if int(j) not in answer:
+        if int(j) not in answer: # int 수치형으로 타입 변환 안한거에서 오래 걸렸다... 백준 폐해....
             answer.append(int(j))
 print(answer)
 
-# 요거 때매 오래걸렸다... 후 빡쳐
-# 백준의 폐해....
-# answer = '[' + ','.join(answer) + ']'
 
-# 차집합으로 풀면 시간초를 줄일 수 있따
+# 차집합으로 풀면 시간 단축 !!
+# ss = []
+# for i in s:
+#     ss.append(list(map(int, i.split(','))))
+#
+# answer = ss[0]
+# for j in range(0, len(ss)-1):
+#     answer.extend(list(set(ss[j+1]) - set(ss[j])))
+# print(answer)
