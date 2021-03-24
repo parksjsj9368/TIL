@@ -1,39 +1,39 @@
-# 한번 밟을 때마다 1씩 줄어든다
-# 0이 되면 더이상 못밟아 이때는 그 다음 디딤돌로 한번에 여러칸 건너 뛰어
-# 밟을 수 있는게 여러개 이면 가장 가까운거
-
 stones = [2, 4, 5, 3, 2, 1, 4, 2, 5, 1]
 k = 3
 
-count = 0
-stack = []
-while 1:
-    count += 1
-    stack = []
-    for i in range(len(stones)): #0보다 클때만
-        if stones[i] > 0:
-            stones[i] -= 1
+def check(stones, k, mid):
+    count = 0
+    for i in stones:
+        if i < mid:
+            count += 1
+        else:
+            count = 0
+        if count == k:  # 뛰어 넘어야 하는 stone의 개수가 k개가 되면 건널 수 없다.
+            return 0
+    return 1
 
-        if stones[i] == 0:
-            stack.append(i)
+def solution(stones, k):
+    answer = 0
+    left = 1  # 가능한 최소 인원 1명
+    right = max(stones) + 1  # 가능하지 않은 최소 인원 (= 가능한 최대 인원 +1)
 
-    cnt = 0
-    stack.sort()
-    print(stack)
-    for i in stack: #k를 이용해서 다시 짜야되 !
-        if i+1 in stack:
-            # print(i)
-            if i+2 in stack:
-                print(i)
-                break
-
-    if count ==4:
-        break
-
-    아항 감사합니디ㅏ
-    효율성은 똥이지만 ㅎㅁㅎ
+    # 이분 탐색
+    while left <= right:
+        mid = (left + right) // 2
+        if check(stones, k, mid):
+            left = mid + 1
+        else:
+            right = mid - 1
+    answer = left - 1  # 마지막에 가능했던 인원
+    return answer
 
 
-
-
-
+# 정확성은 완벽 하지만 효율성은 개똥
+#
+# stones = [2, 4, 5, 3, 2, 1, 4, 2, 5, 1]
+# k = 3
+#
+# result = []
+# for i in range(0, len(stones)-k+1):
+#     result.append(max(stones[i:i+k]))
+# print(min(result))
