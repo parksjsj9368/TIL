@@ -27,6 +27,8 @@ def solution(stones, k):
     answer = left - 1  # 마지막에 가능했던 인원
     return answer
 
+print(solution(stones,k))
+
 
 # 정확성은 완벽 하지만 효율성은 개똥
 #
