@@ -27,7 +27,7 @@ def union_parent(parent, a, b):
 def kruskal():
     answer = 0
     count = 0
-    for x, y, z in edges:
+    for x, y, z in edges: # x비용 y와z 연결됨
         if union_parent(parent, y, z):
             if count == n - 2:
                 break
@@ -38,18 +38,21 @@ def kruskal():
 
 
 n, m = map(int, input().split()) # n:집개수, m:길개수
-
 # 모든 간선을 담을 리스트와, 최종 비용을 담을 변수
 edges = []
 
 parent = [i for i in range(n + 1)] # 부모 테이블 초기화
 for _ in range(m):
-    a, b, c = map(int, input().split()) # a집과 b 연결하는 유지비 c
+    a, b, c = map(int, input().split()) # a집과 b집 연결하는 유지비 c
     edges.append((c, a, b))
     edges.append((c, b, a))
 
 # 간선을 비용순으로 오름차순 정렬
 edges.sort()
+
+print(parent)
+print(edges)
+
 
 print(kruskal())
 
