@@ -13,4 +13,3 @@ def solution(mylist):
 # 조합 : itertools.combinations
 
 # itertools.permutations(list, n) : n개의 원소로 수열 만들기
-가장 많이 등장하는 알파벳 찾기
