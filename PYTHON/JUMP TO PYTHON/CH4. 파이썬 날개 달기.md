@@ -8,21 +8,9 @@
 
 <br>
 
-- 클래스 : 똑같은 무엇인가를 계속해서 만들어낼 수 있는 설계 도면 같은 것
-
-- 객체(=인스턴스) : 클래스에 의해서 만들어진 피조물
-
-
-
-<br>
-
 <br>
 
 ## 4.2 모듈
-
-<br>
-
-
 
 <br>
 
@@ -32,15 +20,92 @@
 
 <br>
 
-
-
-<br>
-
 <br>
 
 ## 4.4 예외 처리
 
 <br>
+
+### 오류 예외 처리 기법
+
+<br>
+
+- try, except 문
+
+``` python
+try:
+    ...
+except [발생오류 [as 오류 메시지 변수]]:
+    ...
+
+try:
+    4/0
+except ZeroDivisionError as e:
+    print(e)
+```
+
+<br>
+
+- try, else 문
+
+: try문은 else절을 지원한다. else절은 예외가 발생하지 않은 경우에 실행되며 반드시 except 절 바로 다음에 위치한다
+
+``` python
+try:
+    f = open('foo.txt', 'r')
+except FileNotFoundError as e:
+    print(str(e))
+else:
+    data = f.read()
+    f.close()
+```
+
+<br>
+
+- try, except 문
+
+: try문에는 finally절을 사용할 수 있다. finally절은 try문 수행 도중 예외 발생 여부에 상관없이 항상 수행된다
+
+``` python
+f = open('foo.txt','w')
+try:
+    # 무언가를 수행한다
+finally:
+    f.close()
+```
+
+<br>
+
+<br>
+
+### 오류 회피하기
+
+<br>
+
+- pass 활용
+
+``` python
+try:
+    f = open('나없는파일','r')
+except FileNotFoundError:
+    pass
+```
+
+<br>
+
+<br>
+
+### 오류 일부러 발생시키기
+
+<br>
+
+- raise 명령어 : 오류를 강제로 발생
+
+``` python
+class Bird:
+    def fly(self):
+        raise NotImplementedError
+```
 
 
 
@@ -52,7 +117,37 @@
 
 <br>
 
-
+| 함수       | 특징                                                         | 파이썬 사용 예                                               |
+| ---------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| abs        | 숫자의 절대값을 돌려주는 함수                                |                                                              |
+| all        | x가 모두 참이면 True, 거짓이 하나라도 있으면 False를 리턴    | allI([1,2,3,0]) # False                                      |
+| any        | x 중 하나라도 참이 있을 경우 True, 모두 거짓일 경우에만 False 리턴 | any([1,2,3,0]) # True                                        |
+| chr        | 아스키 코드값을 입력으로 받아 그 코드에 해당하는 문자를 출력하는 함수 | chr(97) # 'a'                                                |
+| dir        | 객체가 자체적으로 가지고 있는 변수나 함수를 보여준다         |                                                              |
+| divmod     | 2개의 숫자를 입력으로 받아, a를 b로 나눈 몫과 나머지를 튜플 형태로 리턴 | divmod(7,3) # (2,1)                                          |
+| enumerate  | for문과 함께 자료형의 현재 인덱스값과 함께 리턴              | for i , name in enumerate(['body','foo']): print(i, name)    |
+| eval       | 실행 가능한 문자열을 입력으로 받아 문자열을 실행             | eval('1+2') # 3                                              |
+| filter     | 첫 번째 인수로 함수 이름을, 두 번째 인수로 그 함수에 차례로 들어갈 반복 가능한 자료형을 받아 걸러내는 함수 | def positive(x) : return x>0<br />print(list(filter(positive,[1,-3,2,0,-5,6])))<br /><br />print(list(filter(lambda x:x>0, [1,-3,2,0,-5,6]))) |
+| hex        | 정수값을 입력 받아 16진수로 변환하여 리턴하는 함수           | hex(234) # '0xea'                                            |
+| input      | 사용자 입력을 받는 함수                                      |                                                              |
+| int        | 문자열 형태의 숫자나 소수점이 있는 숫자 등을 정수 형태로 리턴하는 함수, int(x,radix)는 radix진수로 표현된 문자열 x를 10진수로 변환하여 리턴 | int('3') # 3<br />int('11', 2) # 3                           |
+| isinstance | 첫 번째 인수로는 인스턴스, 두 번째 인수로 클래스 이름을 받는다. 입력 받은 인스턴스가 그 클래스의 인스턴스인지 판단하는 함수 | class Person: pass<br />a = Person()<br />isinstance(a, Person) # True |
+| lambda     | 함수를 생성할 때 사용하는 예약어로, def와 동일한 역할        | sum = lambda a, b : a+b<br />sum(3,4) # 7                    |
+| len        | 입력값 s의 길이를 리턴                                       |                                                              |
+| list       | 반복 가능한 자료형 s를 입력 받아 리스트로 만들어 리턴        |                                                              |
+| map        | 함수와 반복 가능한 자료형을 입력으로 받는다                  | list(map(lambda a:a*2, [1,2,3,4]))<br />[2,4,6,8]            |
+| max        | 최대값을 리턴하는 함수                                       |                                                              |
+| min        | 최소값을 리턴하는 함수                                       |                                                              |
+| oct        | 정수 형태의 숫자를 8진수 문자열로 바꾸어 리턴                | oct(34) # '0o42'                                             |
+| open       | open(file, [mode])로 파일객체를 리턴하는 함수                |                                                              |
+| ord        | 문자의 아스키 코드값을 리턴하는 함수                         | ord('a') # 97                                                |
+| pow        | x의 y제곱한 결과값을 리턴하는 함수                           | pow(2,4) # 16                                                |
+| range      | range([start], stop, [,step])                                | list(range(1,10,2))<br />[1,3,5,7,9]                         |
+| sorted     | 입력값을 정렬한 후 그 결과를 리스트로 리턴                   |                                                              |
+| str        | 문자열 형태로 객체를 변환하여 리터                           |                                                              |
+| tuple      | 튜플 형태로 바꾸어 리턴하는 함수                             |                                                              |
+| type       | 입력값의 자료형이 무엇인지 알려주는 함수                     |                                                              |
+| zip        | 동일한 개수로 이루어진 자료형을 묶어 주는 역할 하는 함수     | list(zip([1,2,3],[4,5,6])) #[(1,4),(2,5),(3,6)]              |
 
 <br>
 
