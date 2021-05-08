@@ -1,5 +1,4 @@
 def f(n, a, b, c) :
-
   if n == 1 :
     print(a, c, sep = " ")
 

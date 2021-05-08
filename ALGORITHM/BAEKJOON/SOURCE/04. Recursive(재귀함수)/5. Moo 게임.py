@@ -9,9 +9,9 @@ def count(n):
     while 1:
         k += 1
         x, y = s(k)
-        if y >= n:
+        if y > n:
             break
-    return x,y
+    return x, y
 
 def s(k):
     if k == 0:
