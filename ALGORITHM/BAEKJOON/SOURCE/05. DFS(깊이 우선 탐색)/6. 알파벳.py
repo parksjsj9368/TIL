@@ -1,52 +1,27 @@
 import sys
-sys.setrecursionlimit(10**7)
-input = sys.stdin.readline
 
-def dfs(x, y):
-    if x <= -1 or x >= r or y <= -1 or y >= c:
-        return False
+# 좌, 하, 우, 상
+dx = [-1, 0, 1, 0]
+dy = [0, -1, 0, 1]
 
-    if graph[x][y] == 0:
-        global cnt
-        cnt += 1
-        graph[x][y] = 1
-        dfs(x - 1, y)
-        dfs(x, y - 1)
-        dfs(x + 1, y)
-        dfs(x, y + 1)
-        return True
-    return False
+def dfs(x, y, ans):
+    global answer
+    answer = max(ans, answer)
 
+    # 좌우상하 다 확인한다
+    for i in range(4):
+        nx = x + dx[i]
+        ny = y + dy[i]
 
-r, c = map(int, input().split()) # r행 c열
-graph = []
-for _ in range(r):
-    alpha = list(input().rstrip())
-    for i in range(len(alpha)):
-        alpha[i] = ord(alpha[i]) - 65
-    graph.append(alpha)
+        # index 벗어나지 않는지 체크하고, 새로운 칸이 중복되는 알파벳인지 체크한다
+        if ((0 <= nx < R) and (0 <= ny < C)) and (board[nx][ny] not in passed):
+            passed.append(board[nx][ny])
+            dfs(nx, ny, ans+1)
+            passed.remove(board[nx][ny]) # 백트래킹
 
+R, C = map(int, input().split())
+board = [list(input().strip()) for _ in range(R)]
 
-# graph = [[0] * (c) for _ in range(r)]
-#
-# for k in range(k):
-#     ly, lx, ry, rx = map(int, input().split())
-#
-#     for i in range(lx, rx):
-#         for j in range(ly, ry):
-#             graph[i][j] = 1
-#
-# result = 0
-# answer = []
-# for i in range(m):
-#     for j in range(n):
-#         cnt = 0
-#         if dfs(i, j):
-#             result += 1
-#             answer.append(cnt)
-#
-# print(result)
-# answer.sort()
-# for i in answer:
-#     print(i, end=' ')
-
+answer = 1
+dfs(0, 0, answer)
+print(answer)
