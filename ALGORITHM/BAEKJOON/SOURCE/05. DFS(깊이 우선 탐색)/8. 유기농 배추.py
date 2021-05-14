@@ -28,4 +28,3 @@ for _ in range(T):
             if dfs(i, j) == True:
                 result += 1
     print(result)
-
