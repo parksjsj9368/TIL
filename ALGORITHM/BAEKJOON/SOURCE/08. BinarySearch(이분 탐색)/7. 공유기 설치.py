@@ -1,5 +1,3 @@
-# 이분탐색 응용문제
-
 n, c = map(int, input().split())
 array = []
 for _ in range(n):
