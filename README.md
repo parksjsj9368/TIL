@@ -65,5 +65,4 @@ SQL 이론 공부 및 코딩 테스트 알고리즘 연습 in SQL
 - 누구나 쉽게 SQL
 - PROGRAMMERS
 
-<br>
 
