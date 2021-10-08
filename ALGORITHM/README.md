@@ -30,6 +30,6 @@
 
 - 코딩 연습 : 주말, 기출 1문제 풀기
 
-  ​	  	 : Weekly Challenge
+  ​	  	 : Weekly_Challenge
 
 <br>
